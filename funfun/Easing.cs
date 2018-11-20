@@ -81,6 +81,10 @@ namespace FunFun
             return (1-t) * SmoothStart4(t) + t * SmoothStop4(t);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SmoothStep5(this float t){
+            return (1-t) * SmoothStart5(t) + t * SmoothStop5(t);
+        }
 
 
 
