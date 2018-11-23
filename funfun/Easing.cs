@@ -13,13 +13,16 @@ namespace FunFun
         }
 
         public static float Scale(this float t, float s){
-            return s * t;
+            return t * s;
+        }
+
+        public static float ReverseScale(this float t, float s){
+            return (1-t) * s;
         }
 
         public static float SmoothStart2(this float t){
             return t*t;
         }
-
 
         public static float SmoothStart3(this float t){
             return t*t*t;
@@ -37,6 +40,7 @@ namespace FunFun
             for(int i = 0; i < exp; i++){
                 t *= t;
             }
+            
             return t;
         }
         
@@ -86,6 +90,18 @@ namespace FunFun
             return (1-t) * SmoothStart5(t) + t * SmoothStop5(t);
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SmoothStep5(this float t){
+            return (1-t) * SmoothStart5(t) + t * SmoothStop5(t);
+        }
+
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Arch(this float t){
+            t.Flip().Scale(t);
+        }
 
 
 
