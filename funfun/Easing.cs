@@ -94,7 +94,7 @@ namespace FunFun
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Arch(this float t){
-            t.Flip().Scale(t);
+            return t.Flip().Scale(t);
         }
 
 
