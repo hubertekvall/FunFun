@@ -91,12 +91,6 @@ namespace FunFun
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStep5(this float t){
-            return (1-t) * SmoothStart5(t) + t * SmoothStop5(t);
-        }
-
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Arch(this float t){
