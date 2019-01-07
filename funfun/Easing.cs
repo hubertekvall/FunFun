@@ -20,23 +20,23 @@ namespace FunFun
             return (1-t) * s;
         }
 
-        public static float SmoothStart2(this float t){
+        public static float SmoothBegin2(this float t){
             return t*t;
         }
 
-        public static float SmoothStart3(this float t){
+        public static float SmoothBegin3(this float t){
             return t*t*t;
         }
 
-        public static float SmoothStart4(this float t){
+        public static float SmoothBegin4(this float t){
             return t*t;
         }
 
-        public static float SmoothStart5(this float t){
+        public static float SmoothBegin5(this float t){
             return t*t*t*t*t;
         }
 
-        public static float SmoothStartN(this float t, int exp){
+        public static float SmoothBeginN(this float t, int exp){
             for(int i = 0; i < exp; i++){
                 t *= t;
             }
@@ -48,23 +48,23 @@ namespace FunFun
 
         // Compound functions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStop2(this float t){
-            return t.Flip().SmoothStart2().Flip();
+        public static float SmoothEnd2(this float t){
+            return t.Flip().SmoothBegin2().Flip();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStop3(this float t){
-            return t.Flip().SmoothStart3().Flip();
+        public static float SmoothEnd3(this float t){
+            return t.Flip().SmoothBegin3().Flip();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStop4(this float t){
-            return t.Flip().SmoothStart4().Flip();
+        public static float SmoothEnd4(this float t){
+            return t.Flip().SmoothBegin4().Flip();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStop5(this float t){
-            return t.Flip().SmoothStart5().Flip();
+        public static float SmoothEnd5(this float t){
+            return t.Flip().SmoothBegin5().Flip();
         }
 
 
@@ -72,22 +72,22 @@ namespace FunFun
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep2(this float t){
-            return (1-t) * SmoothStart2(t) + t * SmoothStop2(t);
+            return (1-t) * SmoothBegin2(t) + t * SmoothEnd2(t);
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep3(this float t){
-            return (1-t) * SmoothStart3(t) + t * SmoothStop3(t);
+            return (1-t) * SmoothBegin3(t) + t * SmoothEnd3(t);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep4(this float t){
-            return (1-t) * SmoothStart4(t) + t * SmoothStop4(t);
+            return (1-t) * SmoothBegin4(t) + t * SmoothEnd4(t);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep5(this float t){
-            return (1-t) * SmoothStart5(t) + t * SmoothStop5(t);
+            return (1-t) * SmoothBegin5(t) + t * SmoothEnd5(t);
         }
 
 
