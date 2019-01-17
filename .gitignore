@@ -1,6 +1,13 @@
 bin/
+
 obj/
+
 .vs/
+
 *.csproj
+
 *.dll
+
 *.exe
+
+*.meta
