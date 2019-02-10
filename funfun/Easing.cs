@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace FunFun
+namespace FunFun.Easing
 {
     public static class Easing{
 
