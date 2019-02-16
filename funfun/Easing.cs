@@ -5,12 +5,27 @@ using System.Runtime.CompilerServices;
 namespace FunFun.Easing
 {
     public static class Easing{
-
+        
+        public delegate  float EasingFunction (float t);
 
         // Operators
         public static float Flip(this float t){
             return 1-t;
         }
+
+        public static float Clamp(this float t){
+            return t > 1 ? 1 : 
+                   t < 0 ? 0 : t;
+        }
+
+        public static float Fade(this float t, EasingFunction a, EasingFunction b){
+            return (1-t) * a(t) + t * b(t);
+        }
+
+        public static float Mix(this float t, EasingFunction a, EasingFunction b, float percent){
+            return (1-percent) * a(t) + percent * b(t);
+        }
+
 
         public static float Scale(this float t, float s){
             return t * s;
@@ -19,6 +34,11 @@ namespace FunFun.Easing
         public static float ReverseScale(this float t, float s){
             return (1-t) * s;
         }
+
+
+
+
+
 
         public static float SmoothBegin2(this float t){
             return t*t;
@@ -67,6 +87,10 @@ namespace FunFun.Easing
             return t.Flip().SmoothBegin5().Flip();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SmoothEndN(this float t, int exp){
+            return t.Flip().SmoothBeginN(exp).Flip();
+        }
 
 
 

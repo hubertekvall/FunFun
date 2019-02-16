@@ -36,6 +36,8 @@ namespace FunFun.Scripting
 
 
 
+
+
         public Slice(T[] source)
         {
             this.source = source;
@@ -66,72 +68,160 @@ namespace FunFun.Scripting
 
 
 
-    public static class SimpleCalculator
+
+
+    public class SimpleCalculator
     {
 
-        struct ParseData{
-            public Slice<char> data;
-            public bool success;
-            public static implicit operator bool(ParseData r)
-            {
-                return r.success;
-            }
-
-
-            public ParseData(Slice<char> data, bool success){
-                this.data = data;
-                this.success = success;
-            }
-
-            public ParseData Fail(){
-                this.success = false;
-                return this;
-            }
-        }
-
-        
-
-
-        delegate ParseData Parser(ParseData input);
-    
-        static ParseData And(ParseData input, params Parser[] parsers){
-        
-            ParseData current = input;
-
-            for(int i = 0; i < parsers.Length; i++){
-                current = parsers[i](current);
-                if(!current) return input.Fail();
-            }
-
-            return current;
-        }
-
-        static ParseData Or(ParseData input, params Parser[] parsers)
+        static void Main(string[] args)
         {
-            ParseData current = input;
+            // Display the number of command line arguments:
+            System.Console.WriteLine(args.Length);
+        }
 
-            for(int i = 0; i < parsers.Length; i++){
-                
-                current = parsers[i](current);
-                if(current) return current;
+
+        static Stack<Slice<char>> sliceBuffer;
+        static Slice<char> currentSlice;
+
+
+        public SimpleCalculator()
+        {
+            sliceBuffer = new Stack<Slice<char>>(1024);
+        }
+
+
+
+
+        public delegate bool Parser();
+
+        public struct ParserCombinator
+        {
+            Parser parser;
+
+            public ParserCombinator(Parser parser)
+            {
+                this.parser = parser;
             }
 
-            return input.Fail();
+
+            public bool Run()
+            {
+                var cache = currentSlice;
+                bool result = parser();
+
+                if (result)
+                {
+                    return true;
+                }
+                else
+                {
+                    currentSlice = cache;
+                    return false;
+                }
+            }
+
+
+            public static implicit operator ParserCombinator(string s)
+            {
+                return new ParserCombinator(
+                    StringParser(s)
+                );
+            }
+
+
+            public static implicit operator ParserCombinator(char c)
+            {
+                return new ParserCombinator(
+                    CharParser(c)
+                );
+            }
+
+
+
+            public static implicit operator ParserCombinator(Parser p)
+            {
+                return new ParserCombinator(p);
+            }
         }
 
-     
 
 
 
 
-        static ParseData Add(ParseData input){
-            return input;
+
+
+
+        public static Parser And(params ParserCombinator[] parsers)
+        {
+            return delegate ()
+            {
+
+                for (int i = 0; i < parsers.Length; i++)
+                {
+                    if (!parsers[i].Run()) return false;
+                }
+
+                return true;
+            };
         }
 
-  
+        public static Parser Or(params ParserCombinator[] parsers)
+        {
 
-        static ParseData Expression(ParseData input){
-            return And(input, Factor, Many);
+            return delegate ()
+            {
+                for (int i = 0; i < parsers.Length; i++)
+                {
+                    if (parsers[i].Run()) return true;
+                }
+
+                return false;
+            };
+        }
+
+
+        public static Parser Many(params ParserCombinator[] parsers)
+        {
+            return delegate ()
+            {
+                bool result = true;
+
+                while (result)
+                {
+                    for (int i = 0; i < parsers.Length; i++)
+                    {
+                        result = parsers[i].Run();
+                    }
+                }
+
+                return result;
+            };
+        }
+
+
+
+        public static Parser Range(char start, char end){
+            return delegate(){
+                return true;
+            };
+        }
+
+
+        public static Parser StringParser(string s)
+        {
+            return delegate ()
+            {
+                return false;
+            };
+        }
+
+
+        public static Parser CharParser(char c)
+        {
+            return delegate ()
+            {
+                return false;
+            };
         }
 
 
@@ -140,7 +230,60 @@ namespace FunFun.Scripting
 
 
 
-     
+
+        static Parser Number = Range('0', '9');
+
+
+        static Parser Primary = 
+            And(
+                Or(
+                    '(', Expression, ')',
+                    Number,
+                    Many(),
+                    And('-', Primary)
+                ) 
+            );
+
+
+        static Parser MulDiv = 
+            And(
+                Or('*', '/'),
+                Primary
+            );
+
+
+        static Parser AddSub = 
+            And(
+                Or('+', '-'),
+                Factor
+            );
+ 
+
+
+        static Parser Factor = 
+            And(
+                Primary,
+                Many(MulDiv)
+            );
+
+
+        static Parser Expression = 
+            And(
+                Factor,
+                Many(AddSub)
+            );
+       
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
