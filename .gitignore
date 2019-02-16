@@ -11,3 +11,5 @@ obj/
 *.exe
 
 *.meta
+.vscode/launch.json
+.vscode/tasks.json
