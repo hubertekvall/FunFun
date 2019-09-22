@@ -1,6 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace FunFun.Optimization
 {
-    private delegate void FrameLogic();
+    public delegate void FrameLogic();
 
 
     public class TimeSlot
@@ -16,7 +20,7 @@ namespace FunFun.Optimization
             this.frameTarget = frameTarget;
         }
 
-        void Update()
+        public void Update()
         {
             if (frameCounter == frameTarget)
             {
@@ -51,7 +55,7 @@ namespace FunFun.Optimization
 
         public void AddTimeSlot(FrameLogic timeSlotLogic, int frameTarget)
         {
-            partitions.add(new TimeSlot(timeSlotLogic, frameTarget));
+            partitions.Add(new TimeSlot(timeSlotLogic, frameTarget));
         }
 
 

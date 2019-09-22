@@ -96,22 +96,22 @@ namespace FunFun.Easing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep2(this float t){
-            return t.Lerp(SmoothBegin2(t), SmoothEnd2(t));
+            return t.Lerp(SmoothBegin2, SmoothEnd2);
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep3(this float t){
-            return t.Lerp(SmoothBegin3(t), SmoothEnd3(t));
+            return t.Lerp(SmoothBegin3, SmoothEnd3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep4(this float t){
-            return t.Lerp(SmoothBegin4(t), SmoothEnd4(t));
+            return t.Lerp(SmoothBegin4, SmoothEnd4);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep5(this float t){
-            return t.Lerp(SmoothBegin5(t), SmoothEnd5(t));
+            return t.Lerp(SmoothBegin5, SmoothEnd5);
         }
 
 
