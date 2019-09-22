@@ -25,6 +25,7 @@ namespace FunFun.Optimization
             if (frameCounter == frameTarget)
             {
                 timeSlotLogic();
+                frameCounter = 0;
             }
 
 
