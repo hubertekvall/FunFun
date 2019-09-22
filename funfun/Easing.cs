@@ -6,7 +6,7 @@ namespace FunFun.Easing
 {
     public static class Easing{
         
-        public delegate  float EasingFunction (float t);
+        public delegate float EasingFunction (float t);
 
         // Operators
         public static float Flip(this float t){
@@ -18,7 +18,7 @@ namespace FunFun.Easing
                    t < 0 ? 0 : t;
         }
 
-        public static float Fade(this float t, EasingFunction a, EasingFunction b){
+        public static float Lerp(this float t, EasingFunction a, EasingFunction b){
             return (1-t) * a(t) + t * b(t);
         }
 
@@ -56,8 +56,8 @@ namespace FunFun.Easing
             return t*t*t*t*t;
         }
 
-        public static float SmoothBeginN(this float t, int exp){
-            for(int i = 0; i < exp; i++){
+        public static float SmoothBeginN(this float t, int exponent){
+            for(int i = 0; i < exponent; i++){
                 t *= t;
             }
             
@@ -88,38 +88,41 @@ namespace FunFun.Easing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothEndN(this float t, int exp){
-            return t.Flip().SmoothBeginN(exp).Flip();
+        public static float SmoothEndN(this float t, int exponent){
+            return t.Flip().SmoothBeginN(exponent).Flip();
         }
 
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep2(this float t){
-            return (1-t) * SmoothBegin2(t) + t * SmoothEnd2(t);
+            return t.Lerp(SmoothBegin2(t), SmoothEnd2(t));
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep3(this float t){
-            return (1-t) * SmoothBegin3(t) + t * SmoothEnd3(t);
+            return t.Lerp(SmoothBegin3(t), SmoothEnd3(t));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep4(this float t){
-            return (1-t) * SmoothBegin4(t) + t * SmoothEnd4(t);
+            return t.Lerp(SmoothBegin4(t), SmoothEnd4(t));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SmoothStep5(this float t){
-            return (1-t) * SmoothBegin5(t) + t * SmoothEnd5(t);
+            return t.Lerp(SmoothBegin5(t), SmoothEnd5(t));
         }
-
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Arch(this float t){
             return t.Flip().Scale(t);
         }
+
+
+
+
 
 
 
